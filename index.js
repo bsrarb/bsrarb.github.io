@@ -54,7 +54,7 @@ function askWeather (lat, lng,ind,name) {
   var weatherData;
   
   var api = "bb9f8ab99e9303b38626e44f83f56a41";
-  $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lng+"&appid="+api,function(data){
+  $.getJSON("https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lng+"&appid="+api,function(data){
       weatherData = Math.floor(data["main"]["temp"]-273.15);
       console.log("weather: "+weatherData);
       //iconStyle.setText(weatherData);
