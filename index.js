@@ -4,7 +4,7 @@ var overlay;
 var content, container, closer;
 function initializeMap () {
 
-  var maxExtent = [35.24,38.96,35.24,38.96]
+  var maxExtent = [26.0433512713, 35.8215347357, 44.7939896991, 42.1414848903];
   //Create the map
   map = new ol.Map({
   target: 'map',
@@ -15,7 +15,7 @@ function initializeMap () {
     })
   ],
   view: new ol.View({
-    center: ol.proj.fromLonLat([35.24,38.96]),
+    center: ol.proj.transformExtent(maxExtent,'EPSG:4326', 'EPSG:3857'),
     extent: ol.proj.transformExtent(maxExtent,'EPSG:4326', 'EPSG:3857'),
     zoom: 6.5,
     minZoom: 6.5
