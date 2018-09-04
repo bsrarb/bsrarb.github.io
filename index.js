@@ -16,7 +16,7 @@ function initializeMap () {
   ],
   view: new ol.View({
     center: ol.proj.fromLonLat([35.24,38.96]),
-    /*extent: ol.proj.transformExtent(maxExtent,'EPSG:4326', 'EPSG:3857'),*/
+    extent: ol.proj.transformExtent(maxExtent,'EPSG:4326', 'EPSG:3857'),
     zoom: 6.5,
     minZoom: 6.5
   })
