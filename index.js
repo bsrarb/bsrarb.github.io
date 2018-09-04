@@ -8,6 +8,7 @@ function initializeMap () {
   //Create the map
   map = new ol.Map({
   target: 'map',
+  controls: [new CustomControl()],
   projection:"EPSG:4326",
   layers: [
     new ol.layer.Tile({
@@ -15,7 +16,7 @@ function initializeMap () {
     })
   ],
   view: new ol.View({
-    //center: ol.proj.transformExtent(maxExtent,'EPSG:4326', 'EPSG:3857'),
+    center: ol.proj.transformExtent(maxExtent,'EPSG:4326', 'EPSG:3857'),
     extent: ol.proj.transformExtent(maxExtent,'EPSG:4326', 'EPSG:3857'),
     zoom: 6.5,
     minZoom: 6.5
