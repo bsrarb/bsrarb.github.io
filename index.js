@@ -1,7 +1,7 @@
 var map;
-var vectorSource;
 var overlay;
 var content, container, closer;
+
 function initializeMap () {
 
   var maxExtent = [26.0433512713, 35.8215347357, 44.7939896991, 42.1414848903];
@@ -21,147 +21,53 @@ function initializeMap () {
     minZoom: 6.5
   })
   });
-
-  //Restrict the map
-
 }
 
-function connect() {
-
-  //Connect to php for db
-  if (window.XMLHttpRequest) {
-    // code for IE7+, Firefox, Chrome, Opera, Safari
-    xmlhttp = new XMLHttpRequest();
-  } else {
-    // code for IE6, IE5
-    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-  }
-  xmlhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      //Show data in corresponding popup
-      //showDataInPopup(lat,lng,wea);
-        //document.getElementById("dataCont").innerHTML = this.responseText; 
-    }
-  };
-  xmlhttp.open("GET","dbcon.php",true);
-  xmlhttp.send();
-}
-
-
-var city_weathers = {};
 function askWeather (lat, lng,ind,name) {
   
   var weatherData;
-  
   var api = "bb9f8ab99e9303b38626e44f83f56a41";
   $.getJSON("https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lng+"&appid="+api,function(data){
       weatherData = Math.floor(data["main"]["temp"]-273.15);
       console.log("weather: "+weatherData);
-      //iconStyle.setText(weatherData);
-
-      //$("#weather").html(weatherData);
-      //$("#city-name").html(data["name"]);
-
-//weatherData=34;
-          //Create necessary elements for new overlay
-    var div_popup = document.createElement("div");
-    div_popup.setAttribute("id",ind);
-    div_popup.setAttribute("class","ol-popup");
-    //var div_closer = document.createElement("a");
-    //div_closer.setAttribute("href","#");
-    //div_closer.setAttribute("class","ol-popup-closer");
-    //div_popup.appendChild(div_closer);
-    var pop_temp = document.createElement("div");
-    pop_temp.setAttribute("class","pop-temp");
-    pop_temp.innerHTML = weatherData;
-    div_popup.appendChild(pop_temp);
-    var pop_city = document.createElement("div");
-    pop_city.setAttribute("class","pop-city");
-    pop_city.innerHTML = name;
-    div_popup.appendChild(pop_city);
-    var all_divs = document.getElementById("allpopups");
-    all_divs.appendChild(div_popup);
     
-    var our_div = document.getElementById(ind);
+      //Create necessary elements for new overlay
+      var div_popup = document.createElement("div");
+      div_popup.setAttribute("id",ind);
+      div_popup.setAttribute("class","ol-popup");
+    
+      var pop_temp = document.createElement("div");
+      pop_temp.setAttribute("class","pop-temp");
+      pop_temp.innerHTML = weatherData;
+      div_popup.appendChild(pop_temp);
+    
+      var pop_city = document.createElement("div");
+      pop_city.setAttribute("class","pop-city");
+      pop_city.innerHTML = name;
+      div_popup.appendChild(pop_city);
+    
+      var all_divs = document.getElementById("allpopups");
+      all_divs.appendChild(div_popup);
 
-    overlay = new ol.Overlay({
-        element: our_div,
-        autoPan: true,
-        autoPanAnimation: {
-          duration: 250
-        }
-      });
-      overlay.setPosition(ol.proj.transform([parseFloat(lng),parseFloat(lat)],'EPSG:4326', 'EPSG:3857'));
-      map.addOverlay(overlay);
+      var our_div = document.getElementById(ind);
+      overlay = new ol.Overlay({
+          element: our_div,
+          autoPan: true,
+          autoPanAnimation: {
+            duration: 250
+          }
+        });
+        overlay.setPosition(ol.proj.transform([parseFloat(lng),parseFloat(lat)],'EPSG:4326', 'EPSG:3857'));
+        map.addOverlay(overlay);
 
-      //save to array
-      city_weathers[ind] = weatherData;
-      //Send data to php
-      var xhttp; 
-
-/*
-      xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          console.log(this.responseText);
-        }
-      };
-      xhttp.open("GET", "saveData.php?temperature="+weatherData, true);
-      xhttp.send();
-
-      //console.log("send: "+name+"  "+weatherData);*/
 
     })
 
 }
 
 
-function getWeather (lat, lng,ind,name) {
-    weatherData = city_weathers[ind];
-    var div_popup = document.createElement("div");
-    div_popup.setAttribute("id",ind);
-    div_popup.setAttribute("class","ol-popup");
-    //var div_closer = document.createElement("a");
-    //div_closer.setAttribute("href","#");
-    //div_closer.setAttribute("class","ol-popup-closer");
-    //div_popup.appendChild(div_closer);
-    var div_content = document.createElement("div");
-    div_content.setAttribute("id",ind+"cont");
-    div_content.setAttribute("class","popup-content");
-    div_content.setAttribute("style","display: inline-block;");
-    div_popup.appendChild(div_content);
-    var all_divs = document.getElementById("allpopups");
-    all_divs.appendChild(div_popup);
-    var cityname = document.createElement("p");
-    cityname.innerHTML = name;
-    cityname.setAttribute("style","display: inline-block;");
-    div_popup.appendChild(cityname);
-
-    var our_div = document.getElementById(ind);
-    var our_content = document.getElementById(ind+"cont");
-
-    overlay = new ol.Overlay({
-        element: our_div,
-        autoPan: true,
-        autoPanAnimation: {
-          duration: 250
-        }
-      });
-      overlay.setPosition(ol.proj.transform([parseFloat(lng),parseFloat(lat)],'EPSG:4326', 'EPSG:3857'));
-      our_content.innerHTML = weatherData;
-      map.addOverlay(overlay);
-
-}
-
 initializeMap();
 //connect();
-
-var cities = [];
-var lats = [];
-var longs = [];
-var names = [];
-var limit = 3;
-var data;
 
 
 function readTextFile(file, callback) {
@@ -177,49 +83,7 @@ function readTextFile(file, callback) {
 }
 
 
-
-readTextFile("./cities_of_turkey.json", function(text){
-  data = JSON.parse(text);
-  var index;
-  for (index = 1; index < 82; ++index) {
-    var lat = data[index-1].latitude;
-    var lng = data[index-1].longitude;
-    var name = data[index-1].name;
-    lats.push(lat);
-    longs.push(lng);
-    names.push(name);
-    cities.push([]);
-    cities[index-1].push(lat);
-    cities[index-1].push(lng);
-    cities[index-1].push(name);
-    askWeather(lat,lng,index,name);
-    //popupCity(lat,lng); 
-    
-  }
-});
-
-
-
-
-
-
-function newRefresh () {
-
-  //Delete all divs
-  var i;
-  for(i=1;i<82;i++)
-  {
-    var elem = document.getElementById(i);
-    if (typeof(elem) != 'undefined' && elem != null)
-    {
-      elem.remove();
-
-    }
-  }
-
-/*
-  //Create the new ones
-  var data;
+var data;
 readTextFile("./cities_of_turkey.json", function(text){
   data = JSON.parse(text);
   var index;
@@ -228,46 +92,5 @@ readTextFile("./cities_of_turkey.json", function(text){
     var lng = data[index-1].longitude;
     var name = data[index-1].name;
     askWeather(lat,lng,index,name);
-    //popupCity(lat,lng); 
-    
-  }
-});*/
-  
-}
-
-function savedRefresh () {
-  //Delete all divs
-  var i;
-  for(i=1;i<82;i++)
-  {
-    var elem = document.getElementById(i);
-    if (typeof(elem) != 'undefined' && elem != null)
-    {
-      elem.remove();
-
-    }
-  }
-
-
-  //Create the new ones from existing data
-  var data;
-readTextFile("./cities_of_turkey.json", function(text){
-  data = JSON.parse(text);
-  var index;
-  for (index = 1; index < 82; ++index) {
-    var lat = data[index-1].latitude;
-    var lng = data[index-1].longitude;
-    var name = data[index-1].name;
-    getWeather(lat,lng,index,name);
-    //popupCity(lat,lng); 
-    
   }
 });
-
-
-}
-
-
-
-//Session storage, try
-
