@@ -71,19 +71,18 @@ function askWeather (lat, lng,ind,name) {
     //div_closer.setAttribute("href","#");
     //div_closer.setAttribute("class","ol-popup-closer");
     //div_popup.appendChild(div_closer);
-    var div_content = document.createElement("p");
-    div_content.setAttribute("id",ind+"cont");
-    div_content.setAttribute("style","display: inline;");
-    div_popup.appendChild(div_content);
+    var pop_temp = document.createElement("div");
+    pop_temp.setAttribute("class","pop-temp");
+    pop_temp.innerHTML = weatherData;
+    div_popup.appendChild(pop_temp);
+    var pop_city = document.createElement("div");
+    pop_city.setAttribute("class","pop-city");
+    pop_city.innerHTML = name;
+    div_popup.appendChild(pop_city);
     var all_divs = document.getElementById("allpopups");
     all_divs.appendChild(div_popup);
-    var cityname = document.createElement("p");
-    cityname.innerHTML = name;
-    cityname.setAttribute("style","display: inline;");
-    div_popup.appendChild(cityname);
-
+    
     var our_div = document.getElementById(ind);
-    var our_content = document.getElementById(ind+"cont");
 
     overlay = new ol.Overlay({
         element: our_div,
@@ -93,7 +92,6 @@ function askWeather (lat, lng,ind,name) {
         }
       });
       overlay.setPosition(ol.proj.transform([parseFloat(lng),parseFloat(lat)],'EPSG:4326', 'EPSG:3857'));
-      our_content.innerHTML = weatherData;
       map.addOverlay(overlay);
 
       //save to array
