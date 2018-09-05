@@ -74,11 +74,11 @@ function askWeather (lat, lng,ind,name) {
     var pop_temp = document.createElement("div");
     pop_temp.setAttribute("class","pop-temp");
     pop_temp.innerHTML = weatherData;
+    div_popup.appendChild(pop_temp);
     var pop_city = document.createElement("div");
     pop_city.setAttribute("class","pop-city");
     pop_city.innerHTML = name;
     div_popup.appendChild(pop_city);
-    div_popup.appendChild(pop_temp);
     var all_divs = document.getElementById("allpopups");
     all_divs.appendChild(div_popup);
     
