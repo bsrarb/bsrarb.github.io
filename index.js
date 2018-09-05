@@ -8,7 +8,6 @@ function initializeMap () {
   //Create the map
   map = new ol.Map({
   target: 'map',
-  controls: [new CustomControl()],
   projection:"EPSG:4326",
   layers: [
     new ol.layer.Tile({
