@@ -13,34 +13,38 @@
         height: 100%;
         width: 100%;
       }
-      #marker {
-        width: 20px;
-        height: 20px;
-        border: 1px solid #088;
-        border-radius: 10px;
-        background-color: #0FF;
-        opacity: 0.5;
-      }
-      #istanbul {
-        text-decoration: none;
-        color: white;
-        font-size: 11pt;
-        font-weight: bold;
-        text-shadow: black 0.1em 0.1em 0.2em;
+      .pop-temp {
+        background-color: #EB8921;
+        padding: 5px;
+        width: 10px;
+        border-radius: 2px;
+        border: 1px solid black;
+        display: inline-block;
+        margin-right: -5px;
+        color: #2E2F2F;
+
       }
 
+      .pop-city {
+        background-color: #2E2F2F;
+        color: white;
+        padding: 5px;
+        width: auto;
+        border-radius: 2px;
+        border: 1px solid black;
+        display: inline-block;
+      }
 
       .ol-popup {
         position: absolute;
         background-color: white;
         -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
         filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
-        padding: 5px;
-        border-radius: 2px;
-        border: 1px solid #cccccc;
         bottom: -20px;
         left: -20px;
         font-size: 9px;
+        display: inline-block;
+        font-family: "Verdana", serif;
       }
       .ol-popup:after, .ol-popup:before {
 
@@ -60,16 +64,7 @@
         margin-left: -11px;
       }
       
-      #SavedRefresh {
-        position: absolute;
-        top:500px;
-        left:100px;
-      }
-      #NewRefresh {
-        position: absolute;
-        top:500px;
-        left:500px;
-      }
+
     </style>
   </head>
   <body>
