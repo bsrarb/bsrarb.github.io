@@ -15,19 +15,14 @@ function initializeMap() {
 			})
 		],
 		view: new ol.View({
-			//center: ol.proj.fromLonLat([35.24,38.96]),
-			extent: maxExtent,//ol.proj.transformExtent(maxExtent, 'EPSG:4326', 'EPSG:3857'),
+			extent: maxExtent,
 			zoom: 6.5,
 			minZoom: 6.5,
 			projection: 'EPSG:4326'
 		})
 	});
-
-	//$(document).ready(function () {
-		//window.setTimeout(function () {
-			map.getView().fit(maxExtent);//ol.proj.transformExtent(maxExtent,'EPSG:4326', 'EPSG:3857'), { constrainResolution: false });
-		//}, 500);
-	//});
+	map.getView().fit(maxExtent, { constrainResolution: false });
+	
 }
 
 function askWeather(lat, lng, ind, name) {
@@ -64,7 +59,6 @@ function askWeather(lat, lng, ind, name) {
 				duration: 250
 			}
 		});
-		//overlay.setPosition(ol.proj.transform([parseFloat(lng),parseFloat(lat)],'EPSG:4326', 'EPSG:3857'));
 		overlay.setPosition([lng, lat]);
 		map.addOverlay(overlay);
 
