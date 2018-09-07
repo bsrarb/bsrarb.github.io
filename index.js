@@ -8,7 +8,7 @@ function initializeMap () {
   //Create the map
   map = new ol.Map({
   target: 'map',
-  projection:"EPSG:4326",
+  //projection:"EPSG:4326",
   layers: [
     new ol.layer.Tile({
       source: new ol.source.OSM()
@@ -16,13 +16,13 @@ function initializeMap () {
   ],
   view: new ol.View({
     //center: ol.proj.fromLonLat([35.24,38.96]),
-    extent: ol.proj.transformExtent(maxExtent,'EPSG:4326', 'EPSG:3857'),
+    extent: maxExtent,
     zoom: 6.5,
     minZoom: 6.5
   })
   });
   
-  map.getView().fit(ol.proj.transformExtent(maxExtent,'EPSG:4326', 'EPSG:3857'), { constrainResolution: false });
+  map.getView().fit(maxExtent);
 }
 
 function askWeather (lat, lng,ind,name) {
@@ -59,7 +59,7 @@ function askWeather (lat, lng,ind,name) {
             duration: 250
           }
         });
-        overlay.setPosition(ol.proj.transform([parseFloat(lng),parseFloat(lat)],'EPSG:4326', 'EPSG:3857'));
+        overlay.setPosition([lng,lat]);
         map.addOverlay(overlay);
 
 
