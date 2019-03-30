@@ -1,10 +1,10 @@
 <?php
-// We'll be outputting a PDF
-header('Content-type: application/pdf');
-
-// It will be called downloaded.pdf
-header('Content-Disposition: attachment; filename="downloaded.pdf"');
-
-// The PDF source is in original.pdf
-readfile('busra_arabaci_resume.pdf');
-?> 
+if (isset($_GET['file'])) {
+$file = $_GET['file'];
+if (file_exists($file) && is_readable($file) && preg_match('/\.pdf$/',$file)) {
+	header('Content-Type: application/pdf');
+	header("Content-Disposition: attachment; filename=\"$file\"");
+	readfile($file);
+	}
+}
+?> a
