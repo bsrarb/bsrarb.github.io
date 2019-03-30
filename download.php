@@ -7,4 +7,4 @@ if (file_exists($file) && is_readable($file) && preg_match('/\.pdf$/',$file)) {
 	readfile($file);
 	}
 }
-?> a
+?> 
