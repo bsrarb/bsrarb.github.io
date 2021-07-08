@@ -17,7 +17,7 @@ class App{
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 		container.appendChild(this.renderer.domElement);
 
-		this.renderer.setAnimationLoop(this.renderer.bind(this));
+		this.renderer.setAnimationLoop(this.render.bind(this));
 
         window.addEventListener('resize', this.resize.bind(this) );
 	}	
