@@ -120,7 +120,7 @@ class App{
 
     loadCarpet() {
         this.carpet = new THREE.BoxBufferGeometry( 0.4, 0.02, 0.4 ); 
-        this.carpet.object.visible = false;
+        // this.carpet.object.visible = false;
     }
     
     initScene(){
@@ -162,8 +162,12 @@ class App{
             if(self.carpet===undefined) return;
             if(self.reticle.visible) {
                 console.log("putting the carpet");
-                self.carpet.object.position.setFromMatrixPosition(self.reticle.matrix);
-                self.carpet.object.visible = true;
+                const material = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
+                const mesh = new THREE.Mesh( self.geometry, material );
+                
+                mesh.position.setFromMatrixPosition(self.reticle.matrix);
+                self.scene.add( mesh );
+                // self.carpet.object.visible = true;
             }
         }
 
