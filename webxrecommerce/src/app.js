@@ -134,6 +134,7 @@ class App{
         this.scene.add( this.reticle );
         
         // this.loadKnight();
+        this.loadCarpet();
     }
     
     setupXR(){
