@@ -168,7 +168,9 @@ class App{
         this.controller = this.renderer.xr.getController( 0 );
         this.controller.addEventListener( 'select', onSelect );
         
-        this.scene.add( this.controller );    
+        this.scene.add( this.controller );   
+
+        this.renderer.setAnimationLoop( this.render.bind(this) ); 
     }
     
     requestHitTestSource(){
