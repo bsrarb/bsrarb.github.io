@@ -117,6 +117,11 @@ class App{
             }
         );
     }       
+
+    loadCarpet() {
+        this.carpet = new THREE.BoxBufferGeometry( 0.4, 0.02, 0.4 ); 
+        this.carpet.object.visible = false;
+    }
     
     initScene(){
         this.reticle = new THREE.Mesh(
@@ -128,7 +133,7 @@ class App{
         this.reticle.visible = false;
         this.scene.add( this.reticle );
         
-        this.loadKnight();
+        // this.loadKnight();
     }
     
     setupXR(){
@@ -142,16 +147,21 @@ class App{
         this.hitTestSource = null;
         
         function onSelect() {
-            if (self.knight===undefined) return;
+            // if (self.knight===undefined) return;
             
-            if (self.reticle.visible){
-                if (self.knight.object.visible){
-                    self.workingVec3.setFromMatrixPosition( self.reticle.matrix );
-                    self.knight.newPath(self.workingVec3);
-                }else{
-                    self.knight.object.position.setFromMatrixPosition( self.reticle.matrix );
-                    self.knight.object.visible = true;
-                }
+            // if (self.reticle.visible){
+            //     if (self.knight.object.visible){
+            //         self.workingVec3.setFromMatrixPosition( self.reticle.matrix );
+            //         self.knight.newPath(self.workingVec3);
+            //     }else{
+            //         self.knight.object.position.setFromMatrixPosition( self.reticle.matrix );
+            //         self.knight.object.visible = true;
+            //     }
+            // }
+            if(self.carpet===undefined) return;
+            if(self.reticle.visible) {
+                self.carpet.object.position.setFromMatrixPosition(self.reticle.matrix);
+                self.carpet.object.visible = true;
             }
         }
 
@@ -209,8 +219,8 @@ class App{
     }
 
     render( timestamp, frame ) {
-        const dt = this.clock.getDelta();
-        if (this.knight) this.knight.update(dt);
+        // const dt = this.clock.getDelta();
+        // if (this.knight) this.knight.update(dt);
 
         const self = this;
         
