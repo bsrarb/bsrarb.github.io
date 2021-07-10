@@ -12,7 +12,7 @@ class App{
         
         this.clock = new THREE.Clock();
         
-        this.loadingBar = new LoadingBar();
+        // this.loadingBar = new LoadingBar();
 
         this.assetsPath = '../assets/';
         
