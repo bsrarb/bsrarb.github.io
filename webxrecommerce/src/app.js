@@ -161,6 +161,7 @@ class App{
             // }
             if(self.carpet===undefined) return;
             if(self.reticle.visible) {
+                console.log("putting the carpet");
                 self.carpet.object.position.setFromMatrixPosition(self.reticle.matrix);
                 self.carpet.object.visible = true;
             }
