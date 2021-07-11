@@ -10,24 +10,19 @@ class App{
         const container = document.createElement( 'div' );
         document.body.appendChild( container );
         
-        this.clock = new THREE.Clock();
-        
-        // this.loadingBar = new LoadingBar();
+        this.loadingBar = new LoadingBar();
+        this.loadingBar.visible = false;
 
-        this.assetsPath = '../assets/';
+        this.assetsPath = '../assets/ar-shop/';
         
         this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 20 );
-        this.camera.position.set( 0, 1.6, 3 );
+        this.camera.position.set( 0, 1.6, 0 );
         
         this.scene = new THREE.Scene();
 
-        const ambient = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 2);
+        const ambient = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
         ambient.position.set( 0.5, 1, 0.25 );
         this.scene.add(ambient);
-        
-        const light = new THREE.DirectionalLight();
-        light.position.set( 0.2, 1, 1);
-        this.scene.add(light);
             
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true } );
         this.renderer.setPixelRatio( window.devicePixelRatio );
@@ -36,13 +31,62 @@ class App{
         container.appendChild( this.renderer.domElement );
         this.setEnvironment();
         
-        this.workingVec3 = new THREE.Vector3();
+        this.reticle = new THREE.Mesh(
+            new THREE.RingBufferGeometry( 0.15, 0.2, 32 ).rotateX( - Math.PI / 2 ),
+            new THREE.MeshBasicMaterial()
+        );
         
-        this.initScene();
+        this.reticle.matrixAutoUpdate = false;
+        this.reticle.visible = false;
+        this.scene.add( this.reticle );
+        
         this.setupXR();
         
-        window.addEventListener('resize', this.resize.bind(this));
+        window.addEventListener('resize', this.resize.bind(this) );
         
+    }
+    
+    setupXR(){
+        this.renderer.xr.enabled = true;
+        
+        if ( 'xr' in navigator ) {
+
+            navigator.xr.isSessionSupported( 'immersive-ar' ).then( ( supported ) => {
+
+                if (supported){
+                    const collection = document.getElementsByClassName("ar-button");
+                    [...collection].forEach( el => {
+                        el.style.display = 'block';
+                    });
+                }
+            } );
+            
+        } 
+        
+        const self = this;
+
+        this.hitTestSourceRequested = false;
+        this.hitTestSource = null;
+        
+        function onSelect() {
+            if (self.chair===undefined) return;
+            
+            if (self.reticle.visible){
+                self.chair.position.setFromMatrixPosition( self.reticle.matrix );
+                self.chair.visible = true;
+            }
+        }
+
+        this.controller = this.renderer.xr.getController( 0 );
+        this.controller.addEventListener( 'select', onSelect );
+        
+        this.scene.add( this.controller );
+    }
+    
+    resize(){
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize( window.innerWidth, window.innerHeight ); 
     }
     
     setEnvironment(){
@@ -63,51 +107,35 @@ class App{
         } );
     }
     
-    resize(){ 
-        this.camera.aspect = window.innerWidth / window.innerHeight;
-        this.camera.updateProjectionMatrix();
-        this.renderer.setSize( window.innerWidth, window.innerHeight );  
-    }
-    
-    loadKnight(){
-        const loader = new GLTFLoader().setPath(this.assetsPath);
+    showChair(id){
+        this.initAR();
+        
+        const loader = new GLTFLoader( ).setPath(this.assetsPath);
         const self = this;
         
-        // Load a GLTF resource
+        this.loadingBar.visible = true;
+        
+        // Load a glTF resource
         loader.load(
             // resource URL
-            `knight2.glb`,
+            `chair${id}.glb`,
             // called when the resource is loaded
             function ( gltf ) {
-                const object = gltf.scene.children[5];
-                
-                const options = {
-                    object: object,
-                    speed: 0.5,
-                    assetsPath: self.assetsPath,
-                    loader: loader,
-                    animations: gltf.animations,
-                    clip: gltf.animations[0],
-                    app: self,
-                    name: 'knight',
-                    npc: false
-                };
-                
-                self.knight = new Player(options);
-                self.knight.object.visible = false;
-                
-                self.knight.action = 'Dance';
-                const scale = 0.005;
-                self.knight.object.scale.set(scale, scale, scale); 
+
+                self.scene.add( gltf.scene );
+                self.chair = gltf.scene;
+        
+                self.chair.visible = false; 
                 
                 self.loadingBar.visible = false;
-                self.renderer.setAnimationLoop( self.render.bind(self) );//(timestamp, frame) => { self.render(timestamp, frame); } );
+                
+                self.renderer.setAnimationLoop( self.render.bind(self) );
             },
             // called while loading is progressing
             function ( xhr ) {
 
                 self.loadingBar.progress = (xhr.loaded / xhr.total);
-
+                
             },
             // called when loading has errors
             function ( error ) {
@@ -116,67 +144,50 @@ class App{
 
             }
         );
-    }       
-
-    loadCarpet() {
-        this.carpet = new THREE.BoxBufferGeometry( 0.4, 0.02, 0.4 ); 
-        // this.carpet.object.visible = false;
-    }
+    }           
     
-    initScene(){
-        this.reticle = new THREE.Mesh(
-            new THREE.RingBufferGeometry( 0.15, 0.2, 32 ).rotateX( - Math.PI / 2 ),
-            new THREE.MeshBasicMaterial()
-        );
-        
-        this.reticle.matrixAutoUpdate = false;
-        this.reticle.visible = false;
-        this.scene.add( this.reticle );
-        
-        // this.loadKnight();
-        this.loadCarpet();
-    }
-    
-    setupXR(){
-        this.renderer.xr.enabled = true;
-        
-        const btn = new ARButton( this.renderer, { sessionInit: { requiredFeatures: [ 'hit-test' ], optionalFeatures: [ 'dom-overlay' ], domOverlay: { root: document.body } } } );
-        
+    initAR(){
+        let currentSession = null;
         const self = this;
-
-        this.hitTestSourceRequested = false;
-        this.hitTestSource = null;
         
-        function onSelect() {
-            // if (self.knight===undefined) return;
+        const sessionInit = { requiredFeatures: [ 'hit-test' ] };
+        
+        
+        function onSessionStarted( session ) {
+
+            session.addEventListener( 'end', onSessionEnded );
+
+            self.renderer.xr.setReferenceSpaceType( 'local' );
+            self.renderer.xr.setSession( session );
+       
+            currentSession = session;
             
-            // if (self.reticle.visible){
-            //     if (self.knight.object.visible){
-            //         self.workingVec3.setFromMatrixPosition( self.reticle.matrix );
-            //         self.knight.newPath(self.workingVec3);
-            //     }else{
-            //         self.knight.object.position.setFromMatrixPosition( self.reticle.matrix );
-            //         self.knight.object.visible = true;
-            //     }
-            // }
-            if(self.carpet===undefined) return;
-            if(self.reticle.visible) {
-                console.log("putting the carpet");
-                const material = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
-                const mesh = new THREE.Mesh( self.geometry, material );
-                
-                mesh.position.setFromMatrixPosition(self.reticle.matrix);
-                self.scene.add( mesh );
-                // self.carpet.object.visible = true;
-            }
         }
 
-        this.controller = this.renderer.xr.getController( 0 );
-        this.controller.addEventListener( 'select', onSelect );
-        
-        this.scene.add( this.controller );   
+        function onSessionEnded( ) {
 
-        this.renderer.setAnimationLoop( this.render.bind(this) ); 
+            currentSession.removeEventListener( 'end', onSessionEnded );
+
+            currentSession = null;
+            
+            if (self.chair !== null){
+                self.scene.remove( self.chair );
+                self.chair = null;
+            }
+            
+            self.renderer.setAnimationLoop( null );
+
+        }
+
+        if ( currentSession === null ) {
+
+            navigator.xr.requestSession( 'immersive-ar', sessionInit ).then( onSessionStarted );
+
+        } else {
+
+            currentSession.end();
+
+        }
     }
     
     requestHitTestSource(){
@@ -225,26 +236,17 @@ class App{
         }
 
     }
-
+    
     render( timestamp, frame ) {
-        // const dt = this.clock.getDelta();
-        // if (this.knight) this.knight.update(dt);
 
-        const self = this;
-        
         if ( frame ) {
-
             if ( this.hitTestSourceRequested === false ) this.requestHitTestSource( )
 
             if ( this.hitTestSource ) this.getHitTestResults( frame );
-
         }
 
         this.renderer.render( this.scene, this.camera );
-        
-        /*if (this.knight.calculatedPath && this.knight.calculatedPath.length>0){
-            console.log( `path:${this.knight.calculatedPath[0].x.toFixed(2)}, ${this.knight.calculatedPath[0].y.toFixed(2)}, ${this.knight.calculatedPath[0].z.toFixed(2)} position: ${this.knight.object.position.x.toFixed(2)}, ${this.knight.object.position.y.toFixed(2)}, ${this.knight.object.position.z.toFixed(2)}`);
-        }*/
+
     }
 }
 
