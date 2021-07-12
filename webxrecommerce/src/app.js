@@ -21,9 +21,9 @@ class App{
         
         this.scene = new THREE.Scene();
 
-        const ambient = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-        ambient.position.set( 0.5, 1, 0.25 );
-        this.scene.add(ambient);
+        // const ambient = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+        // ambient.position.set( 0.5, 1, 0.25 );
+        // this.scene.add(ambient);
             
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true } );
         this.renderer.setPixelRatio( window.devicePixelRatio );
@@ -109,7 +109,7 @@ class App{
           pmremGenerator.dispose();
 
           self.scene.environment = envMap;
-
+          
         }, undefined, (err)=>{
             console.error( 'An error occurred setting the environment');
         } );
@@ -143,18 +143,18 @@ class App{
                 txt.wrapS = THREE.RepeatWrapping;
                 txt.wrapT = THREE.RepeatWrapping;
                 
-                const INITIAL_MTL = new THREE.MeshPhongMaterial( { map: txt, shininess: 0 } );
-                console.log("changing color");
-                self.chair.traverse((o) => {
-                    console.log("inside traverse function");
-                    console.log(o);
-                    if (o.isMesh && o.name != null) {
-                        console.log(o.nameID);
-                        if (o.name == "chair1_2") {
-                                o.material = INITIAL_MTL;
-                        }
-                    }
-                });
+                // const INITIAL_MTL = new THREE.MeshPhongMaterial( { map: txt, shininess: 0 } );
+                // console.log("changing color");
+                // self.chair.traverse((o) => {
+                //     console.log("inside traverse function");
+                //     console.log(o);
+                //     if (o.isMesh && o.name != null) {
+                //         console.log(o.nameID);
+                //         if (o.name == "chair1_2") {
+                //                 o.material = INITIAL_MTL;
+                //         }
+                //     }
+                // });
                 
                 self.renderer.setAnimationLoop( self.render.bind(self) );
             },
