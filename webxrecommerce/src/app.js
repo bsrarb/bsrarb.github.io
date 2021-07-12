@@ -131,7 +131,10 @@ class App{
 
                 //Change the material of body of the chair
                 const INITIAL_MTL = new THREE.MeshPhongMaterial( { color: 0x5a99d1, shininess: 10 } );
+                console.log("changing color");
                 self.chair.traverse((o) => {
+                    console.log("inside traverse function");
+                    console.log(o);
                     if (o.isMesh && o.nameID != null) {
                         console.log(o.nameID);
                         if (o.nameID == "body") {
