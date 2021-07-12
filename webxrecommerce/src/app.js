@@ -137,7 +137,7 @@ class App{
                     console.log(o);
                     if (o.isMesh && o.nameID != null) {
                         console.log(o.nameID);
-                        if (o.nameID == "body") {
+                        if (o.nameID == "chair1_2") {
                                 o.material = INITIAL_MTL;
                         }
                     }
