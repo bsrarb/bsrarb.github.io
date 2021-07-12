@@ -21,9 +21,9 @@ class App{
         
         this.scene = new THREE.Scene();
 
-        // const ambient = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-        // ambient.position.set( 0.5, 1, 0.25 );
-        // this.scene.add(ambient);
+        const ambient = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+        ambient.position.set( 0.5, 1, 0.25 );
+        this.scene.add(ambient);
             
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true } );
         this.renderer.setPixelRatio( window.devicePixelRatio );
@@ -138,7 +138,12 @@ class App{
                 self.loadingBar.visible = false;
 
                 //Change the material of body of the chair
-                const INITIAL_MTL = new THREE.MeshPhongMaterial( { color: 0x5a99d1, shininess: 10 } );
+                let txt = new THREE.TextureLoader().load("./pinkfabrictex.jpeg");
+                txt.repeat.set( 2,2,2);
+                txt.wrapS = THREE.RepeatWrapping;
+                txt.wrapT = THREE.RepeatWrapping;
+                
+                const INITIAL_MTL = new THREE.MeshPhongMaterial( { map: tex, shininess: 0 } );
                 console.log("changing color");
                 self.chair.traverse((o) => {
                     console.log("inside traverse function");
