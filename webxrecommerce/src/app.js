@@ -145,18 +145,15 @@ class App{
                 txt.wrapS = THREE.RepeatWrapping;
                 txt.wrapT = THREE.RepeatWrapping;
                 
-                // const INITIAL_MTL = new THREE.MeshPhongMaterial( { map: txt, shininess: 0 } );
-                // console.log("changing color");
-                // self.chair.traverse((o) => {
-                //     console.log("inside traverse function");
-                //     console.log(o);
-                //     if (o.isMesh && o.name != null) {
-                //         console.log(o.nameID);
-                //         if (o.name == "chair1_2") {
-                //                 o.material = INITIAL_MTL;
-                //         }
-                //     }
-                // });
+                const INITIAL_MTL = new THREE.MeshPhongMaterial( { map: txt, shininess: 0 } );
+                self.chair.traverse((o) => {
+                    if (o.isMesh && o.name != null) {
+                        console.log(o.nameID);
+                        if (o.name == "chair1_2") {
+                                o.material = INITIAL_MTL;
+                        }
+                    }
+                });
                 
                 self.renderer.setAnimationLoop( self.render.bind(self) );
             },
