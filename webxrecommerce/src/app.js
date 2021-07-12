@@ -133,6 +133,7 @@ class App{
                 const INITIAL_MTL = new THREE.MeshPhongMaterial( { color: 0x5a99d1, shininess: 10 } );
                 self.chair.traverse((o) => {
                     if (o.isMesh && o.nameID != null) {
+                        console.log(o.nameID);
                         if (o.nameID == "body") {
                                 o.material = INITIAL_MTL;
                         }
