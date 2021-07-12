@@ -143,7 +143,7 @@ class App{
                 txt.wrapS = THREE.RepeatWrapping;
                 txt.wrapT = THREE.RepeatWrapping;
                 
-                const INITIAL_MTL = new THREE.MeshPhongMaterial( { map: tex, shininess: 0 } );
+                const INITIAL_MTL = new THREE.MeshPhongMaterial( { map: txt, shininess: 0 } );
                 console.log("changing color");
                 self.chair.traverse((o) => {
                     console.log("inside traverse function");
