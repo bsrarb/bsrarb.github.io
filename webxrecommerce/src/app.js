@@ -128,6 +128,16 @@ class App{
                 self.chair.visible = false; 
                 
                 self.loadingBar.visible = false;
+
+                //Change the material of body of the chair
+                const INITIAL_MTL = new THREE.MeshPhongMaterial( { color: 0x5a99d1, shininess: 10 } );
+                self.chair.traverse((o) => {
+                    if (o.isMesh && o.nameID != null) {
+                        if (o.nameID == "body") {
+                                o.material = INITIAL_MTL;
+                        }
+                    }
+                });
                 
                 self.renderer.setAnimationLoop( self.render.bind(self) );
             },
