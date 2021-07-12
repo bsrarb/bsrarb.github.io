@@ -138,7 +138,7 @@ class App{
                 self.loadingBar.visible = false;
 
                 //Change the material of body of the chair
-                let txt = new THREE.TextureLoader().load("./pinkfabrictex.jpeg");
+                let txt = new THREE.TextureLoader().load("../assets/ar-shop/pinkfabrictex.jpeg");
                 txt.repeat.set( 2,2,2);
                 txt.wrapS = THREE.RepeatWrapping;
                 txt.wrapT = THREE.RepeatWrapping;
