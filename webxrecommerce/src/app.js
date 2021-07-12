@@ -148,10 +148,10 @@ class App{
                 const INITIAL_MTL = new THREE.MeshStandardMaterial( { normalMap: txt } );
                 self.chair.traverse((o) => {
                     if (o.isMesh && o.name != null) {
-                        console.log(o.nameID);
-                        if (o.name == "chair1_2") {
-                                o.material = INITIAL_MTL;
-                        }
+                        console.log(o.material);
+                        // if (o.name == "chair1_2") {
+                        //         o.material = INITIAL_MTL;
+                        // }
                     }
                 });
                 
