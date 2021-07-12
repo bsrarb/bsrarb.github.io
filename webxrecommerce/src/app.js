@@ -108,7 +108,7 @@ class App{
           const envMap = pmremGenerator.fromEquirectangular( texture ).texture;
 
           self.scene.environment = envMap;
-          self.scene.background = envMap;
+          // self.scene.background = envMap;
 
           pmremGenerator.dispose();
 
