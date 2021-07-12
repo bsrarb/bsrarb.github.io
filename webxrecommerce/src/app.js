@@ -21,7 +21,7 @@ class App{
         
         this.scene = new THREE.Scene();
 
-        const ambient = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 0.3);
+        const ambient = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
         ambient.position.set( 0.5, 1, 0.25 );
         this.scene.add(ambient);
             
@@ -138,7 +138,7 @@ class App{
                 self.loadingBar.visible = false;
 
                 //Change the material of body of the chair
-                let txt = new THREE.TextureLoader().load("../assets/ar-shop/pinkfabrictex.jpeg");
+                let txt = new THREE.TextureLoader().load("../assets/ar-shop/denimtex.jpeg");
                 txt.repeat.set( 2,2,2);
                 txt.wrapS = THREE.RepeatWrapping;
                 txt.wrapT = THREE.RepeatWrapping;
