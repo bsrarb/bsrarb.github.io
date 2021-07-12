@@ -4,6 +4,7 @@ import { RGBELoader } from '../libs/three.js-dev/examples/jsm/loaders/RGBELoader
 import { ARButton } from '../libs/ARButton.js';
 import { LoadingBar } from '../libs/LoadingBar.js';
 import { Player } from '../libs/Player.js';
+import { ControllerGestures } from '../libs/ControllerGestures.js';
 
 class App{
     constructor(){
@@ -20,9 +21,9 @@ class App{
         
         this.scene = new THREE.Scene();
 
-        const ambient = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-        ambient.position.set( 0.5, 1, 0.25 );
-        this.scene.add(ambient);
+        // const ambient = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+        // ambient.position.set( 0.5, 1, 0.25 );
+        // this.scene.add(ambient);
             
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true } );
         this.renderer.setPixelRatio( window.devicePixelRatio );
@@ -81,6 +82,13 @@ class App{
         this.controller.addEventListener( 'select', onSelect );
         
         this.scene.add( this.controller );
+
+        this.gestures = new ControllerGestures( this.renderer );
+        this.gestures.addEventListener( 'swipe', (ev)=>{
+            console.log("swipe");
+            console.log(ev);
+
+        });
     }
     
     resize(){
