@@ -135,9 +135,9 @@ class App{
                 self.chair.traverse((o) => {
                     console.log("inside traverse function");
                     console.log(o);
-                    if (o.isMesh && o.nameID != null) {
+                    if (o.isMesh && o.name != null) {
                         console.log(o.nameID);
-                        if (o.nameID == "chair1_2") {
+                        if (o.name == "chair1_2") {
                                 o.material = INITIAL_MTL;
                         }
                     }
