@@ -10,6 +10,15 @@ class App{
     constructor(){
         const container = document.createElement( 'div' );
         document.body.appendChild( container );
+
+        //Textures
+        const txts = [
+            {texture: "../assets/ar-shop/denimtex.jpeg", size: [2,2]},
+            {texture: "../assets/ar-shop/pinkfabrictex.jpeg", size:[5,5]},
+            {texture: "../assets/ar-shop/grayfabrictex.jpeg", size:[5,5]}
+        ];
+
+        let currentTxt = 0;
         
         this.loadingBar = new LoadingBar();
         this.loadingBar.visible = false;
@@ -85,9 +94,9 @@ class App{
 
         this.gestures = new ControllerGestures( this.renderer );
         this.gestures.addEventListener( 'swipe', (ev)=>{
-            console.log("swipe");
-            console.log(ev);
-
+            currentTxt++;
+            if(currentTxt === 3) currentTxt = 0;
+            changeTexture();
         });
     }
     
@@ -116,6 +125,23 @@ class App{
             console.error( 'An error occurred setting the environment');
         } );
     }
+
+    changeTexture() {
+        let txt = new THREE.TextureLoader().load(txts[currentTxt].texture);
+        txt.repeat.set(txts[currentTxt].size[0], txts[currentTxt].size[1]);
+        txt.wrapS = THREE.RepeatWrapping;
+        txt.wrapT = THREE.RepeatWrapping;
+        
+        const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: txt } );
+        self.chair.traverse((o) => {
+            if (o.isMesh && o.name != null) {
+                if (o.name == "chair1_2") {
+                        o.material = INITIAL_MTL;
+                }
+            }
+        });
+    }
+
     
     showChair(id){
         this.initAR();
@@ -140,20 +166,7 @@ class App{
                 self.loadingBar.visible = false;
 
                 //Change the material of body of the chair
-                let txt = new THREE.TextureLoader().load("../assets/ar-shop/denimtex.jpeg");
-                txt.repeat.set( 2,2,2);
-                txt.wrapS = THREE.RepeatWrapping;
-                txt.wrapT = THREE.RepeatWrapping;
-                
-                const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: txt } );
-                self.chair.traverse((o) => {
-                    if (o.isMesh && o.name != null) {
-                        // console.log(o.material);
-                        if (o.name == "chair1_2") {
-                                o.material = INITIAL_MTL;
-                        }
-                    }
-                });
+                changeTexture();
                 
                 self.renderer.setAnimationLoop( self.render.bind(self) );
             },
