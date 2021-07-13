@@ -165,8 +165,7 @@ class App{
                 
                 self.loadingBar.visible = false;
 
-                //Change the material of body of the chair
-                changeTexture();
+                
                 
                 self.renderer.setAnimationLoop( self.render.bind(self) );
             },
