@@ -18,7 +18,7 @@ class App{
             {texture: "../assets/ar-shop/grayfabrictex.jpeg", size:[5,5]}
         ];
 
-        let currentTxt = 0;
+        
         
         this.loadingBar = new LoadingBar();
         this.loadingBar.visible = false;
@@ -92,6 +92,8 @@ class App{
         
         this.scene.add( this.controller );
 
+
+        let currentTxt = 0;
         this.gestures = new ControllerGestures( this.renderer );
         this.gestures.addEventListener( 'swipe', (ev)=>{
             currentTxt++;
