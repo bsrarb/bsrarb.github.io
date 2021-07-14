@@ -211,8 +211,9 @@ class App{
         let currentSession = null;
         const self = this;
         
-        const sessionInit = { requiredFeatures: [ 'hit-test' ], optionalFeatures: ['dom-overlay'], };
-        sessionInit.domOverlay = { root: document.getElementById('domOverlayContent')};
+        const sessionInit = { requiredFeatures: [ 'hit-test' ] };
+        // const sessionInit = { requiredFeatures: [ 'hit-test' ], optionalFeatures: ['dom-overlay'], };
+        // sessionInit.domOverlay = { root: document.getElementById('domOverlayContent')};
         
         // document.getElementById('changeTextureButton').addEventListener('beforexrselect', ev => ev.preventDefault());
 
