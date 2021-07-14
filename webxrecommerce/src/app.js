@@ -121,6 +121,11 @@ class App{
                 self.chair.rotateY( -1 * ev.theta );
             }
         });
+
+        this.gestures.addEventListener( 'pan', (ev)=>{
+            console.log("pan");
+            console.log(ev);
+        });
     }
     
     resize(){

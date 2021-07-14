@@ -60,7 +60,7 @@ class ControllerGestures extends THREE.EventDispatcher{
             //console.log(`ControllerGestures.onSelectEnd: startToEnd:${startToEnd.toFixed(2)} taps:${data.taps}`);
             
             if (self.type === 'swipe'){
-                const direction = ( self.controller1.position.x < data.startPosition.x) ? "RIGHT" : "LEFT";
+                const direction = ( self.controller1.position.y < data.startPosition.y) ? "DOWN" : "UP";
                 self.dispatchEvent( { type:'swipe', direction } );
                 self.type = 'unknown';
             }else if (self.type !== "pinch" && self.type !== "rotate" && self.type !== 'pan'){
