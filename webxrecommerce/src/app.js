@@ -12,6 +12,9 @@ class App{
         container.id = "ARContainer";
         document.body.appendChild( container );
 
+        this.rotatingLeft = false;
+        this.rotatingRight = false;
+
         this.loadingBar = new LoadingBar();
         this.loadingBar.visible = false;
 
@@ -122,6 +125,29 @@ class App{
             }
         });
 
+        let leftRotBut = document.getElementById("leftRotateButton");
+        let rightRotBut = document.getElementById("rightRotateButton");
+
+        leftRotBut.addEventListener("touchstart",function () {
+            console.log("left touchstart");
+            this.rotatingLeft = true;
+        }, false);
+
+        leftRotBut.addEventListener("touchend",function () {
+            console.log("left touchend");
+            this.rotatingLeft = false;
+        }, false);
+
+        rightRotBut.addEventListener("touchstart",function () {
+            console.log("right touchstart");
+            this.rotatingRight = true;
+        }, false);
+
+        rightRotBut.addEventListener("touchend",function () {
+            console.log("right touchend");
+            this.rotatingRight = false;
+        }, false);
+
     }
     
     resize(){
@@ -165,7 +191,6 @@ class App{
             }
         });
     }
-
     
     showChair(id){
         this.initAR();
@@ -216,12 +241,16 @@ class App{
         // sessionInit.domOverlay = { root: document.getElementById('domOverlayContent')};
         
         document.getElementById('changeTextureButton').addEventListener('beforexrselect', ev => ev.preventDefault());
+        document.getElementById('leftRotateButton').addEventListener('beforexrselect', ev => ev.preventDefault());
+        document.getElementById('rightRotateButton').addEventListener('beforexrselect', ev => ev.preventDefault());
 
         function onSessionStarted( session ) {
 
             session.addEventListener( 'end', onSessionEnded );
 
             document.getElementById("changeTextureButton").style.display = "block";
+            document.getElementById("leftRotateButton").style.display = "block";
+            document.getElementById("rightRotateButton").style.display = "block";
 
             self.renderer.xr.setReferenceSpaceType( 'local' );
             self.renderer.xr.setSession( session );
@@ -235,6 +264,8 @@ class App{
             currentSession.removeEventListener( 'end', onSessionEnded );
 
             document.getElementById("changeTextureButton").style.display = "none";
+            document.getElementById("leftRotateButton").style.display = "none";
+            document.getElementById("rightRotateButton").style.display = "none";
 
             currentSession = null;
             
@@ -315,6 +346,13 @@ class App{
 
         if ( this.renderer.xr.isPresenting ){
             this.gestures.update();
+        }
+
+        if(rotatingLeft) {
+
+        }
+        else if(rotatingRight) {
+
         }
 
         this.renderer.render( this.scene, this.camera );
