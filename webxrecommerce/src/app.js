@@ -9,6 +9,7 @@ import { ControllerGestures } from '../libs/ControllerGestures.js';
 class App{
     constructor(){
         const container = document.createElement( 'div' );
+        container.id = "ARContainer";
         document.body.appendChild( container );
 
         this.loadingBar = new LoadingBar();
