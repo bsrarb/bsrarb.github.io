@@ -114,7 +114,7 @@ class App{
         this.gestures.addEventListener( 'rotate', (ev)=>{
             //      sconsole.log( ev ); 
             if (ev.initialise !== undefined){
-                self.startQuaternion = self.knight.object.quaternion.clone();
+                self.startQuaternion = self.chair.object.quaternion.clone();
             }else{
                 self.chair.object.quaternion.copy( self.startQuaternion );
                 self.chair.object.rotateY( ev.theta );
