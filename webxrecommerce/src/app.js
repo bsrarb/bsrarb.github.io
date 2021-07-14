@@ -349,10 +349,10 @@ class App{
         }
 
         if(this.rotatingLeft) {
-            this.chair.rotateY(1);
+            this.chair.rotateY(0.01);
         }
         if(this.rotatingRight) {
-            this.chair.rotateY(1);
+            this.chair.rotateY(-0.01);
         }
 
         this.renderer.render( this.scene, this.camera );
