@@ -219,6 +219,8 @@ class App{
 
             session.addEventListener( 'end', onSessionEnded );
 
+            document.getElementById("changeTextureButton").style.display = "block";
+
             self.renderer.xr.setReferenceSpaceType( 'local' );
             self.renderer.xr.setSession( session );
        
@@ -229,6 +231,8 @@ class App{
         function onSessionEnded( ) {
 
             currentSession.removeEventListener( 'end', onSessionEnded );
+
+            document.getElementById("changeTextureButton").style.display = "none";
 
             currentSession = null;
             
