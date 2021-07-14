@@ -348,6 +348,12 @@ class App{
             this.gestures.update();
         }
 
+        if(this.rotatingLeft) {
+            this.chair.rotateY(1);
+        }
+        if(this.rotatingRight) {
+            this.chair.rotateY(1);
+        }
 
         this.renderer.render( this.scene, this.camera );
 
