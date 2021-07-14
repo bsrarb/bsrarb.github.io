@@ -32,38 +32,6 @@ class App{
         this.renderer.outputEncoding = THREE.sRGBEncoding;
         container.appendChild( this.renderer.domElement );
         this.setEnvironment();
-
-
-        this.renderer.domElement.addEventListener('touchstart', function(e){
-            console.log("touchstart");
-            e.preventDefault();
-            touchDown=true;
-            touchX = e.touches[0].pageX;
-            touchY = e.touches[0].pageY;
-        }, false);
-
-        this.renderer.domElement.addEventListener('touchend', function(e){
-            console.log("touchend");
-            e.preventDefault();
-            touchDown = false;
-        }, false);
-
-        this.renderer.domElement.addEventListener('touchmove', function(e){
-            console.log("touchmove");
-            e.preventDefault();
-            
-            if(!touchDown){
-                return;
-            }
-
-            deltaX = e.touches[0].pageX - touchX;
-            deltaY = e.touches[0].pageY - touchY;
-            touchX = e.touches[0].pageX;
-            touchY = e.touches[0].pageY;
-
-            // self.chair.rotateY(deltaX);
-
-        }, false);
         
         this.reticle = new THREE.Mesh(
             new THREE.RingBufferGeometry( 0.15, 0.2, 32 ).rotateX( - Math.PI / 2 ),
@@ -144,6 +112,15 @@ class App{
             });
         });
 
+        this.gestures.addEventListener( 'rotate', (ev)=>{
+            console.log("rotate"); 
+            if (ev.initialise !== undefined){
+                self.startQuaternion = self.chair.quaternion.clone();
+            }else{
+                self.chair.quaternion.copy( self.startQuaternion );
+                self.chair.rotateY( -1 * ev.theta );
+            }
+        });
 
     }
     
