@@ -112,19 +112,19 @@ class App{
             });
         });
 
-        renderer.domElement.addEventListener('touchstart', function(e){
+        self.renderer.domElement.addEventListener('touchstart', function(e){
             e.preventDefault();
             touchDown=true;
             touchX = e.touches[0].pageX;
             touchY = e.touches[0].pageY;
         }, false);
 
-        renderer.domElement.addEventListener('touchend', function(e){
+        self.renderer.domElement.addEventListener('touchend', function(e){
             e.preventDefault();
             touchDown = false;
         }, false);
 
-        renderer.domElement.addEventListener('touchmove', function(e){
+        self.renderer.domElement.addEventListener('touchmove', function(e){
             e.preventDefault();
             
             if(!touchDown){
