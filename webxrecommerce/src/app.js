@@ -123,7 +123,7 @@ class App{
         });
 
         this.gestures.addEventListener( 'pan', (ev)=>{
-            self.chair.rotate(ev.delta.x);
+            self.chair.rotateY(ev.delta.x);
         });
     }
     
