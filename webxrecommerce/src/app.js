@@ -130,22 +130,22 @@ class App{
 
         leftRotBut.addEventListener("touchstart",function () {
             console.log("left touchstart");
-            this.rotatingLeft = true;
+            self.rotatingLeft = true;
         }, false);
 
         leftRotBut.addEventListener("touchend",function () {
             console.log("left touchend");
-            this.rotatingLeft = false;
+            self.rotatingLeft = false;
         }, false);
 
         rightRotBut.addEventListener("touchstart",function () {
             console.log("right touchstart");
-            this.rotatingRight = true;
+            self.rotatingRight = true;
         }, false);
 
         rightRotBut.addEventListener("touchend",function () {
             console.log("right touchend");
-            this.rotatingRight = false;
+            self.rotatingRight = false;
         }, false);
 
     }
