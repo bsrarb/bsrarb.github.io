@@ -214,7 +214,7 @@ class App{
         const sessionInit = { requiredFeatures: [ 'hit-test' ], optionalFeatures: ['dom-overlay'], };
         sessionInit.domOverlay = { root: document.getElementById('domOverlayContent')};
         
-        document.getElementById('changeTextureButton').addEventListener('beforexrselect', ev => ev.preventDefault());
+        // document.getElementById('changeTextureButton').addEventListener('beforexrselect', ev => ev.preventDefault());
 
         function onSessionStarted( session ) {
 
