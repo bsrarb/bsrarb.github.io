@@ -98,7 +98,20 @@ class App{
         this.gestures.addEventListener( 'swipe', (ev)=>{
             currentTxt++;
             if(currentTxt === 3) currentTxt = 0;
-            changeTexture();
+            
+            let txt = new THREE.TextureLoader().load(txts[currentTxt].texture);
+            txt.repeat.set(txts[currentTxt].size[0], txts[currentTxt].size[1]);
+            txt.wrapS = THREE.RepeatWrapping;
+            txt.wrapT = THREE.RepeatWrapping;
+            
+            const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: txt } );
+            self.chair.traverse((o) => {
+                if (o.isMesh && o.name != null) {
+                    if (o.name == "chair1_2") {
+                            o.material = INITIAL_MTL;
+                    }
+                }
+            });
         });
     }
     
