@@ -212,7 +212,7 @@ class App{
         const self = this;
         
         const sessionInit = { requiredFeatures: [ 'hit-test' ], optionalFeatures: ['dom-overlay'], };
-        options.domOverlay = { root: document.getElementById('domOverlayContent')};
+        sessionInit.domOverlay = { root: document.getElementById('domOverlayContent')};
         
         
         function onSessionStarted( session ) {
