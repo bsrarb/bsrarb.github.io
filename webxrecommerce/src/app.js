@@ -112,19 +112,33 @@ class App{
             });
         });
 
-        this.gestures.addEventListener( 'rotate', (ev)=>{
-            //      sconsole.log( ev ); 
-            if (ev.initialise !== undefined){
-                self.startQuaternion = self.chair.quaternion.clone();
-            }else{
-                self.chair.quaternion.copy( self.startQuaternion );
-                self.chair.rotateY( -1 * ev.theta );
-            }
-        });
+        renderer.domElement.addEventListener('touchstart', function(e){
+            e.preventDefault();
+            touchDown=true;
+            touchX = e.touches[0].pageX;
+            touchY = e.touches[0].pageY;
+        }, false);
 
-        this.gestures.addEventListener( 'pan', (ev)=>{
-            self.chair.rotateY(ev.delta.x);
-        });
+        renderer.domElement.addEventListener('touchend', function(e){
+            e.preventDefault();
+            touchDown = false;
+        }, false);
+
+        renderer.domElement.addEventListener('touchmove', function(e){
+            e.preventDefault();
+            
+            if(!touchDown){
+                return;
+            }
+
+            deltaX = e.touches[0].pageX - touchX;
+            deltaY = e.touches[0].pageY - touchY;
+            touchX = e.touches[0].pageX;
+            touchY = e.touches[0].pageY;
+
+            self.chair.rotateY(deltaX / 100);
+
+        }, false);
     }
     
     resize(){
