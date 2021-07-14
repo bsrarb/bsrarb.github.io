@@ -11,15 +11,6 @@ class App{
         const container = document.createElement( 'div' );
         document.body.appendChild( container );
 
-        //Textures
-        const txts = [
-            {texture: "../assets/ar-shop/denimtex.jpeg", size: [2,2]},
-            {texture: "../assets/ar-shop/pinkfabrictex.jpeg", size:[5,5]},
-            {texture: "../assets/ar-shop/grayfabrictex.jpeg", size:[5,5]}
-        ];
-
-        
-        
         this.loadingBar = new LoadingBar();
         this.loadingBar.visible = false;
 
@@ -94,6 +85,12 @@ class App{
 
 
         let currentTxt = 0;
+        //Textures
+        const txts = [
+            {texture: "../assets/ar-shop/denimtex.jpeg", size: [2,2]},
+            {texture: "../assets/ar-shop/pinkfabrictex.jpeg", size:[5,5]},
+            {texture: "../assets/ar-shop/grayfabrictex.jpeg", size:[5,5]}
+        ];
         this.gestures = new ControllerGestures( this.renderer );
         this.gestures.addEventListener( 'swipe', (ev)=>{
             currentTxt++;
