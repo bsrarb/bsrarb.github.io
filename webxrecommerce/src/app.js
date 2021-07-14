@@ -113,6 +113,7 @@ class App{
         });
 
         self.renderer.domElement.addEventListener('touchstart', function(e){
+            console.log("touchstart");
             e.preventDefault();
             touchDown=true;
             touchX = e.touches[0].pageX;
@@ -120,11 +121,13 @@ class App{
         }, false);
 
         self.renderer.domElement.addEventListener('touchend', function(e){
+            console.log("touchend");
             e.preventDefault();
             touchDown = false;
         }, false);
 
         self.renderer.domElement.addEventListener('touchmove', function(e){
+            console.log("touchmove");
             e.preventDefault();
             
             if(!touchDown){
@@ -136,7 +139,7 @@ class App{
             touchX = e.touches[0].pageX;
             touchY = e.touches[0].pageY;
 
-            self.chair.rotateY(deltaX / 100);
+            self.chair.rotateY(deltaX);
 
         }, false);
     }
