@@ -123,8 +123,7 @@ class App{
         });
 
         this.gestures.addEventListener( 'pan', (ev)=>{
-            console.log("pan");
-            console.log(ev);
+            self.chair.rotate(ev.delta.x);
         });
     }
     
