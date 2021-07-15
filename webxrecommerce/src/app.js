@@ -282,8 +282,8 @@ class App{
         ];
         
         for(let i=0;i<txts.length;i++) {
-            let txt = new THREE.TextureLoader().load(txts[self.currentTxt].texture);
-            txt.repeat.set(txts[self.currentTxt].size[0], txts[self.currentTxt].size[1]);
+            let txt = new THREE.TextureLoader().load(txts[i].texture);
+            txt.repeat.set(txts[i].size[0], txts[i].size[1]);
             txt.wrapS = THREE.RepeatWrapping;
             txt.wrapT = THREE.RepeatWrapping;
             self.txtArr.push(txt);
