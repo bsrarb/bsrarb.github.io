@@ -261,6 +261,7 @@ class App{
         sessionInit.domOverlay = { root: document.getElementById('domOverlayContent')};
         
         document.getElementById('changeTextureButton').addEventListener('beforexrselect', ev => ev.preventDefault());
+        document.getElementById('gallery').addEventListener('beforexrselect', ev => ev.preventDefault());
         document.getElementById('leftRotateButton').addEventListener('beforexrselect', ev => ev.preventDefault());
         document.getElementById('rightRotateButton').addEventListener('beforexrselect', ev => ev.preventDefault());
 
@@ -268,9 +269,10 @@ class App{
 
             session.addEventListener( 'end', onSessionEnded );
 
-            document.getElementById("changeTextureButton").style.display = "block";
+            // document.getElementById("changeTextureButton").style.display = "block";
             document.getElementById("leftRotateButton").style.display = "block";
             document.getElementById("rightRotateButton").style.display = "block";
+            document.getElementById("gallery").style.display = "block";
 
             self.renderer.xr.setReferenceSpaceType( 'local' );
             self.renderer.xr.setSession( session );
@@ -283,9 +285,10 @@ class App{
 
             currentSession.removeEventListener( 'end', onSessionEnded );
 
-            document.getElementById("changeTextureButton").style.display = "none";
+            // document.getElementById("changeTextureButton").style.display = "none";
             document.getElementById("leftRotateButton").style.display = "none";
             document.getElementById("rightRotateButton").style.display = "none";
+            document.getElementById("gallery").style.display = "none";
 
             currentSession = null;
             
