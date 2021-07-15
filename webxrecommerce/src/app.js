@@ -44,6 +44,8 @@ class App{
         this.reticle.matrixAutoUpdate = false;
         this.reticle.visible = false;
         this.scene.add( this.reticle );
+
+        this.txtArr = [];
         
         this.setupXR();
         
@@ -108,12 +110,12 @@ class App{
             currentTxt++;
             if(currentTxt === 3) currentTxt = 0;
             
-            let txt = new THREE.TextureLoader().load(txts[currentTxt].texture);
-            txt.repeat.set(txts[currentTxt].size[0], txts[currentTxt].size[1]);
-            txt.wrapS = THREE.RepeatWrapping;
-            txt.wrapT = THREE.RepeatWrapping;
+            // let txt = new THREE.TextureLoader().load(txts[currentTxt].texture);
+            // txt.repeat.set(txts[currentTxt].size[0], txts[currentTxt].size[1]);
+            // txt.wrapS = THREE.RepeatWrapping;
+            // txt.wrapT = THREE.RepeatWrapping;
             
-            const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: txt } );
+            const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: self.txtArr[currentTxt] } );
             self.chair.traverse((o) => {
                 if (o.isMesh && o.name != null) {
                     if (o.name == "chair1_2") {
@@ -269,6 +271,31 @@ class App{
 
             }
         );
+
+        //LoadTextures here maybe
+        const txts = [
+            {texture: "../assets/ar-shop/denimtex.jpeg", size: [2,2]},
+            {texture: "../assets/ar-shop/pinkfabrictex.jpeg", size:[5,5]},
+            {texture: "../assets/ar-shop/grayfabrictex.jpeg", size:[5,5]}
+        ];
+        
+        for(let i=0;i<txts.length;i++) {
+            let txt = new THREE.TextureLoader().load(txts[currentTxt].texture);
+            txt.repeat.set(txts[currentTxt].size[0], txts[currentTxt].size[1]);
+            txt.wrapS = THREE.RepeatWrapping;
+            txt.wrapT = THREE.RepeatWrapping;
+            self.txtArr.push(txt);
+        }
+        
+        
+        const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: self.txtArr[0] } );
+        self.chair.traverse((o) => {
+            if (o.isMesh && o.name != null) {
+                if (o.name == "chair1_2") {
+                        o.material = INITIAL_MTL;
+                }
+            }
+        });
     }           
     
     initAR(){
