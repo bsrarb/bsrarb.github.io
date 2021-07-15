@@ -117,11 +117,11 @@ class App{
             // txt.wrapS = THREE.RepeatWrapping;
             // txt.wrapT = THREE.RepeatWrapping;
             
-            // const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: self.txtArr[self.currentTxt] } );
+            const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: self.txtArr[self.currentTxt] } );
             self.chair.traverse((o) => {
                 if (o.isMesh && o.name != null) {
                     if (o.name == "chair1_2") {
-                            o.material = self.txtArr[self.currentTxt];
+                            o.material = INITIAL_MTL;
                     }
                 }
             });
