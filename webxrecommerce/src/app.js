@@ -289,6 +289,7 @@ class App{
             self.txtArr.push(txt);
         }
         
+        console.log(self.txtArr);
         
         // const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: self.txtArr[0] } );
         // self.chair.traverse((o) => {
