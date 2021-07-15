@@ -133,6 +133,16 @@ class App{
             }
         });
 
+        this.gestures.addEventListener( 'pinch', (ev)=>{
+            //console.log( ev );  
+            if (ev.initialise !== undefined){
+                self.startScale = self.chair.scale.clone();
+            }else{
+                const scale = self.startScale.clone().multiplyScalar(ev.scale);
+                self.chair.scale.copy( scale );
+            }
+        });
+
         // let leftRotBut = document.getElementById("leftRotateButton");
         // let rightRotBut = document.getElementById("rightRotateButton");
 
