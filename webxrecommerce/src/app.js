@@ -364,9 +364,9 @@ class App{
             if ( this.hitTestSource ) this.getHitTestResults( frame );
         }
 
-        if ( this.renderer.xr.isPresenting ){
-            this.gestures.update();
-        }
+        // if ( this.renderer.xr.isPresenting ){
+        //     this.gestures.update();
+        // }
 
         if(this.rotatingLeft) {
             this.chair.rotateY(0.05);
