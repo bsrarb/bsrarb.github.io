@@ -83,7 +83,7 @@ class App{
         }
 
         this.controller = this.renderer.xr.getController( 0 );
-        this.controller.addEventListener( 'select', onSelect );
+        //this.controller.addEventListener( 'select', onSelect );
         
         this.scene.add( this.controller );
 
@@ -95,63 +95,18 @@ class App{
             {texture: "../assets/ar-shop/pinkfabrictex.jpeg", size:[5,5]},
             {texture: "../assets/ar-shop/grayfabrictex.jpeg", size:[5,5]}
         ];
-        // this.gestures = new ControllerGestures( this.renderer );
-        // this.gestures.addEventListener( 'swipe', (ev)=>{
-        //     currentTxt++;
-        //     if(currentTxt === 3) currentTxt = 0;
+        this.gestures = new ControllerGestures( this.renderer );
+        this.gestures.addEventListener( 'tap', (ev)=>{
+            if (self.chair===undefined) return;
             
-        //     let txt = new THREE.TextureLoader().load(txts[currentTxt].texture);
-        //     txt.repeat.set(txts[currentTxt].size[0], txts[currentTxt].size[1]);
-        //     txt.wrapS = THREE.RepeatWrapping;
-        //     txt.wrapT = THREE.RepeatWrapping;
-            
-        //     const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: txt } );
-        //     self.chair.traverse((o) => {
-        //         if (o.isMesh && o.name != null) {
-        //             if (o.name == "chair1_2") {
-        //                     o.material = INITIAL_MTL;
-        //             }
-        //         }
-        //     });
-        // });
-
-        // this.gestures.addEventListener( 'rotate', (ev)=>{
-        //     console.log("rotate"); 
-        //     if (ev.initialise !== undefined){
-        //         self.startQuaternion = self.chair.quaternion.clone();
-        //     }else{
-        //         self.chair.quaternion.copy( self.startQuaternion );
-        //         self.chair.rotateY( -1 * ev.theta );
-        //     }
-        // });
-
-        let leftRotBut = document.getElementById("leftRotateButton");
-        let rightRotBut = document.getElementById("rightRotateButton");
-
-        leftRotBut.addEventListener("touchstart",function () {
-            console.log("left touchstart");
-            self.rotatingLeft = true;
-        }, false);
-
-        leftRotBut.addEventListener("touchend",function () {
-            console.log("left touchend");
-            self.rotatingLeft = false;
-        }, false);
-
-        rightRotBut.addEventListener("touchstart",function () {
-            console.log("right touchstart");
-            self.rotatingRight = true;
-        }, false);
-
-        rightRotBut.addEventListener("touchend",function () {
-            console.log("right touchend");
-            self.rotatingRight = false;
-        }, false);
-
-        let changeTextButton = document.getElementById("changeTextureButton");
-        changeTextButton.addEventListener("click", function() {
+            if (self.reticle.visible){
+                self.chair.position.setFromMatrixPosition( self.reticle.matrix );
+                self.chair.visible = true;
+            }
+        });
+        this.gestures.addEventListener( 'swipe', (ev)=>{
             currentTxt++;
-            if(currentTxt === txts.length) currentTxt = 0;
+            if(currentTxt === 3) currentTxt = 0;
             
             let txt = new THREE.TextureLoader().load(txts[currentTxt].texture);
             txt.repeat.set(txts[currentTxt].size[0], txts[currentTxt].size[1]);
@@ -167,6 +122,59 @@ class App{
                 }
             });
         });
+
+        this.gestures.addEventListener( 'rotate', (ev)=>{
+            console.log("rotate"); 
+            if (ev.initialise !== undefined){
+                self.startQuaternion = self.chair.quaternion.clone();
+            }else{
+                self.chair.quaternion.copy( self.startQuaternion );
+                self.chair.rotateY( -1 * ev.theta );
+            }
+        });
+
+        // let leftRotBut = document.getElementById("leftRotateButton");
+        // let rightRotBut = document.getElementById("rightRotateButton");
+
+        // leftRotBut.addEventListener("touchstart",function () {
+        //     console.log("left touchstart");
+        //     self.rotatingLeft = true;
+        // }, false);
+
+        // leftRotBut.addEventListener("touchend",function () {
+        //     console.log("left touchend");
+        //     self.rotatingLeft = false;
+        // }, false);
+
+        // rightRotBut.addEventListener("touchstart",function () {
+        //     console.log("right touchstart");
+        //     self.rotatingRight = true;
+        // }, false);
+
+        // rightRotBut.addEventListener("touchend",function () {
+        //     console.log("right touchend");
+        //     self.rotatingRight = false;
+        // }, false);
+
+        // let changeTextButton = document.getElementById("changeTextureButton");
+        // changeTextButton.addEventListener("click", function() {
+        //     currentTxt++;
+        //     if(currentTxt === txts.length) currentTxt = 0;
+            
+        //     let txt = new THREE.TextureLoader().load(txts[currentTxt].texture);
+        //     txt.repeat.set(txts[currentTxt].size[0], txts[currentTxt].size[1]);
+        //     txt.wrapS = THREE.RepeatWrapping;
+        //     txt.wrapT = THREE.RepeatWrapping;
+            
+        //     const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: txt } );
+        //     self.chair.traverse((o) => {
+        //         if (o.isMesh && o.name != null) {
+        //             if (o.name == "chair1_2") {
+        //                     o.material = INITIAL_MTL;
+        //             }
+        //         }
+        //     });
+        // });
 
     }
     
@@ -256,23 +264,21 @@ class App{
     initAR(){
         let currentSession = null;
         const self = this;
-        // const sessionInit = { requiredFeatures: [ 'hit-test' ]};
-        const sessionInit = { requiredFeatures: [ 'hit-test' ], optionalFeatures: ['dom-overlay'], };
-        sessionInit.domOverlay = { root: document.getElementById('domOverlayContent')};
+        const sessionInit = { requiredFeatures: [ 'hit-test' ]};
+        // const sessionInit = { requiredFeatures: [ 'hit-test' ], optionalFeatures: ['dom-overlay'], };
+        // sessionInit.domOverlay = { root: document.getElementById('domOverlayContent')};
         
-        document.getElementById('changeTextureButton').addEventListener('beforexrselect', ev => ev.preventDefault());
-        document.getElementById('leftRotateButton').addEventListener('beforexrselect', ev => ev.preventDefault());
-        document.getElementById('rightRotateButton').addEventListener('beforexrselect', ev => ev.preventDefault());
-        document.getElementById('catalog').addEventListener('beforexrselect', ev => ev.preventDefault());
+        // document.getElementById('changeTextureButton').addEventListener('beforexrselect', ev => ev.preventDefault());
+        // document.getElementById('leftRotateButton').addEventListener('beforexrselect', ev => ev.preventDefault());
+        // document.getElementById('rightRotateButton').addEventListener('beforexrselect', ev => ev.preventDefault());
 
         function onSessionStarted( session ) {
 
             session.addEventListener( 'end', onSessionEnded );
 
-            document.getElementById("changeTextureButton").style.display = "block";
-            document.getElementById("leftRotateButton").style.display = "block";
-            document.getElementById("rightRotateButton").style.display = "block";
-            document.getElementById("catalog").style.display = "block";
+            // document.getElementById("changeTextureButton").style.display = "block";
+            // document.getElementById("leftRotateButton").style.display = "block";
+            // document.getElementById("rightRotateButton").style.display = "block";
 
             self.renderer.xr.setReferenceSpaceType( 'local' );
             self.renderer.xr.setSession( session );
@@ -285,10 +291,9 @@ class App{
 
             currentSession.removeEventListener( 'end', onSessionEnded );
 
-            document.getElementById("changeTextureButton").style.display = "none";
-            document.getElementById("leftRotateButton").style.display = "none";
-            document.getElementById("rightRotateButton").style.display = "none";
-            document.getElementById("catalog").style.display = "none";
+            // document.getElementById("changeTextureButton").style.display = "none";
+            // document.getElementById("leftRotateButton").style.display = "none";
+            // document.getElementById("rightRotateButton").style.display = "none";
 
             currentSession = null;
             
@@ -367,16 +372,16 @@ class App{
             if ( this.hitTestSource ) this.getHitTestResults( frame );
         }
 
-        // if ( this.renderer.xr.isPresenting ){
-        //     this.gestures.update();
-        // }
+        if ( this.renderer.xr.isPresenting ){
+            this.gestures.update();
+        }
 
-        if(this.rotatingLeft) {
-            this.chair.rotateY(0.05);
-        }
-        else if(this.rotatingRight) {
-            this.chair.rotateY(-0.05);
-        }
+        // if(this.rotatingLeft) {
+        //     this.chair.rotateY(0.05);
+        // }
+        // else if(this.rotatingRight) {
+        //     this.chair.rotateY(-0.05);
+        // }
 
         this.renderer.render( this.scene, this.camera );
 
