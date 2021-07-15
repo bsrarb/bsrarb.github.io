@@ -46,7 +46,8 @@ class App{
         this.scene.add( this.reticle );
 
         this.txtArr = [];
-        
+        this.currentTxt = 0;
+
         this.setupXR();
         
         window.addEventListener('resize', this.resize.bind(this) );
@@ -90,7 +91,7 @@ class App{
         this.scene.add( this.controller );
 
 
-        let currentTxt = 0;
+        
         //Textures
         const txts = [
             {texture: "../assets/ar-shop/denimtex.jpeg", size: [2,2]},
@@ -107,15 +108,15 @@ class App{
             }
         });
         this.gestures.addEventListener( 'swipe', (ev)=>{
-            currentTxt++;
-            if(currentTxt === 3) currentTxt = 0;
+            self.currentTxt++;
+            if(self.currentTxt === 3) self.currentTxt = 0;
             
             // let txt = new THREE.TextureLoader().load(txts[currentTxt].texture);
             // txt.repeat.set(txts[currentTxt].size[0], txts[currentTxt].size[1]);
             // txt.wrapS = THREE.RepeatWrapping;
             // txt.wrapT = THREE.RepeatWrapping;
             
-            const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: self.txtArr[currentTxt] } );
+            const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: self.txtArr[self.currentTxt] } );
             self.chair.traverse((o) => {
                 if (o.isMesh && o.name != null) {
                     if (o.name == "chair1_2") {
@@ -216,21 +217,21 @@ class App{
         } );
     }
 
-    changeTexture() {
-        let txt = new THREE.TextureLoader().load(txts[currentTxt].texture);
-        txt.repeat.set(txts[currentTxt].size[0], txts[currentTxt].size[1]);
-        txt.wrapS = THREE.RepeatWrapping;
-        txt.wrapT = THREE.RepeatWrapping;
+    // changeTexture() {
+    //     let txt = new THREE.TextureLoader().load(txts[currentTxt].texture);
+    //     txt.repeat.set(txts[currentTxt].size[0], txts[currentTxt].size[1]);
+    //     txt.wrapS = THREE.RepeatWrapping;
+    //     txt.wrapT = THREE.RepeatWrapping;
         
-        const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: txt } );
-        self.chair.traverse((o) => {
-            if (o.isMesh && o.name != null) {
-                if (o.name == "chair1_2") {
-                        o.material = INITIAL_MTL;
-                }
-            }
-        });
-    }
+    //     const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: txt } );
+    //     self.chair.traverse((o) => {
+    //         if (o.isMesh && o.name != null) {
+    //             if (o.name == "chair1_2") {
+    //                     o.material = INITIAL_MTL;
+    //             }
+    //         }
+    //     });
+    // }
     
     showChair(id){
         this.initAR();
@@ -280,8 +281,8 @@ class App{
         ];
         
         for(let i=0;i<txts.length;i++) {
-            let txt = new THREE.TextureLoader().load(txts[currentTxt].texture);
-            txt.repeat.set(txts[currentTxt].size[0], txts[currentTxt].size[1]);
+            let txt = new THREE.TextureLoader().load(txts[self.currentTxt].texture);
+            txt.repeat.set(txts[self.currentTxt].size[0], txts[self.currentTxt].size[1]);
             txt.wrapS = THREE.RepeatWrapping;
             txt.wrapT = THREE.RepeatWrapping;
             self.txtArr.push(txt);
