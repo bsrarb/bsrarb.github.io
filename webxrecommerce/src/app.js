@@ -289,14 +289,14 @@ class App{
         }
         
         
-        const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: self.txtArr[0] } );
-        self.chair.traverse((o) => {
-            if (o.isMesh && o.name != null) {
-                if (o.name == "chair1_2") {
-                        o.material = INITIAL_MTL;
-                }
-            }
-        });
+        // const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: self.txtArr[0] } );
+        // self.chair.traverse((o) => {
+        //     if (o.isMesh && o.name != null) {
+        //         if (o.name == "chair1_2") {
+        //                 o.material = INITIAL_MTL;
+        //         }
+        //     }
+        // });
     }           
     
     initAR(){
