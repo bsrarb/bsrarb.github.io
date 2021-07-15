@@ -321,7 +321,7 @@
     let startX;
     let scrollLeft;
 
-    slider.addEventListener('mousedown', e => {
+    slider.addEventListener('touchstart', e => {
       isDown = true;
       slider.classList.add('active');
       startX = e.pageX - slider.offsetLeft;
@@ -331,11 +331,11 @@
       isDown = false;
       slider.classList.remove('active');
     });
-    slider.addEventListener('mouseup', _ => {
+    slider.addEventListener('touchend', _ => {
       isDown = false;
       slider.classList.remove('active');
     });
-    slider.addEventListener('mousemove', e => {
+    slider.addEventListener('touchmove', e => {
       if (!isDown) return;
       e.preventDefault();
       const x = e.pageX - slider.offsetLeft;
