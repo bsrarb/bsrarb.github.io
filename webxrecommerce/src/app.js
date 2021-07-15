@@ -95,35 +95,35 @@ class App{
             {texture: "../assets/ar-shop/pinkfabrictex.jpeg", size:[5,5]},
             {texture: "../assets/ar-shop/grayfabrictex.jpeg", size:[5,5]}
         ];
-        this.gestures = new ControllerGestures( this.renderer );
-        this.gestures.addEventListener( 'swipe', (ev)=>{
-            currentTxt++;
-            if(currentTxt === 3) currentTxt = 0;
+        // this.gestures = new ControllerGestures( this.renderer );
+        // this.gestures.addEventListener( 'swipe', (ev)=>{
+        //     currentTxt++;
+        //     if(currentTxt === 3) currentTxt = 0;
             
-            let txt = new THREE.TextureLoader().load(txts[currentTxt].texture);
-            txt.repeat.set(txts[currentTxt].size[0], txts[currentTxt].size[1]);
-            txt.wrapS = THREE.RepeatWrapping;
-            txt.wrapT = THREE.RepeatWrapping;
+        //     let txt = new THREE.TextureLoader().load(txts[currentTxt].texture);
+        //     txt.repeat.set(txts[currentTxt].size[0], txts[currentTxt].size[1]);
+        //     txt.wrapS = THREE.RepeatWrapping;
+        //     txt.wrapT = THREE.RepeatWrapping;
             
-            const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: txt } );
-            self.chair.traverse((o) => {
-                if (o.isMesh && o.name != null) {
-                    if (o.name == "chair1_2") {
-                            o.material = INITIAL_MTL;
-                    }
-                }
-            });
-        });
+        //     const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: txt } );
+        //     self.chair.traverse((o) => {
+        //         if (o.isMesh && o.name != null) {
+        //             if (o.name == "chair1_2") {
+        //                     o.material = INITIAL_MTL;
+        //             }
+        //         }
+        //     });
+        // });
 
-        this.gestures.addEventListener( 'rotate', (ev)=>{
-            console.log("rotate"); 
-            if (ev.initialise !== undefined){
-                self.startQuaternion = self.chair.quaternion.clone();
-            }else{
-                self.chair.quaternion.copy( self.startQuaternion );
-                self.chair.rotateY( -1 * ev.theta );
-            }
-        });
+        // this.gestures.addEventListener( 'rotate', (ev)=>{
+        //     console.log("rotate"); 
+        //     if (ev.initialise !== undefined){
+        //         self.startQuaternion = self.chair.quaternion.clone();
+        //     }else{
+        //         self.chair.quaternion.copy( self.startQuaternion );
+        //         self.chair.rotateY( -1 * ev.theta );
+        //     }
+        // });
 
         let leftRotBut = document.getElementById("leftRotateButton");
         let rightRotBut = document.getElementById("rightRotateButton");
@@ -147,6 +147,26 @@ class App{
             console.log("right touchend");
             self.rotatingRight = false;
         }, false);
+
+        let changeTextButton = document.getElementById("changeTextureButton");
+        changeTextButton.addEventListener("click", function() {
+            currentTxt++;
+            if(currentTxt === txts.length) currentTxt = 0;
+            
+            let txt = new THREE.TextureLoader().load(txts[currentTxt].texture);
+            txt.repeat.set(txts[currentTxt].size[0], txts[currentTxt].size[1]);
+            txt.wrapS = THREE.RepeatWrapping;
+            txt.wrapT = THREE.RepeatWrapping;
+            
+            const INITIAL_MTL = new THREE.MeshStandardMaterial( { map: txt } );
+            self.chair.traverse((o) => {
+                if (o.isMesh && o.name != null) {
+                    if (o.name == "chair1_2") {
+                            o.material = INITIAL_MTL;
+                    }
+                }
+            });
+        });
 
     }
     
@@ -349,10 +369,10 @@ class App{
         }
 
         if(this.rotatingLeft) {
-            this.chair.rotateY(0.01);
+            this.chair.rotateY(0.05);
         }
-        if(this.rotatingRight) {
-            this.chair.rotateY(-0.01);
+        else if(this.rotatingRight) {
+            this.chair.rotateY(-0.05);
         }
 
         this.renderer.render( this.scene, this.camera );
