@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		body {
+		  font-family: Lato, sans-serif;
+		}
+
+		section {
+		  padding: 1rem;
+		  background: #fff;
+		  box-shadow: 0 3px 10px 0 rgba(#000, 0.1);
+		  border-radius: 5px;
+
+		  h2 {
+		    margin-bottom: 1rem;
+		    font-weight: bold;
+		    font-size: 1.5rem;
+		  }
+		}
+
+		.images-list {
+		  display: flex;
+		  gap: 1rem;
+		  overflow-x: auto;
+		  scroll-snap-type: x;
+		  //scroll-padding: 1rem;
+
+		  img {
+		    scroll-snap-align: center;
+		    flex: 0 0 150px;
+		    width: 150px;
+		    height: 150px;
+		    border-radius: 5px;
+		  }
+		}
+
+		.wrapper {
+		  max-width: 500px;
+		  margin-left: auto;
+		  margin-right: auto;
+		  padding-left: 1rem;
+		  padding-right: 1rem;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+  <section>
+    <h2>
+      Top Users
+    </h2>
+    <div class="images-list">
+      <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="">
+      <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="">
+      <img src="https://randomuser.me/api/portraits/men/3.jpg" alt="">
+      <img src="https://randomuser.me/api/portraits/women/13.jpg" alt="">
+      <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="">
+      <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="">
+      <img src="https://randomuser.me/api/portraits/men/3.jpg" alt="">
+      <img src="https://randomuser.me/api/portraits/women/13.jpg" alt="">
+      <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="">
+      <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="">
+      <img src="https://randomuser.me/api/portraits/men/3.jpg" alt="">
+      <img src="https://randomuser.me/api/portraits/women/13.jpg" alt="">
+    </div>
+  </section>
+</div>
+</body>
+</html>
